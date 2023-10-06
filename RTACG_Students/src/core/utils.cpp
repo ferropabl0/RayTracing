@@ -43,26 +43,22 @@ bool Utils::getClosestIntersection(const Ray& cameraRay, const std::vector<Shape
 {
     // std::cout << "Need to implement the function Utils::getClosestIntersection() in the file utils.cpp" << std::endl;
 
-    //
-    // Write your code bellow
-    // 
+    bool inter = false;
     float curr_dist = cameraRay.maxT;
+    
 
     for (size_t objIndex = 0; objIndex < objectsList.size(); objIndex++) {
         const Shape* obj = objectsList.at(objIndex);
 
         if (obj->rayIntersect(cameraRay, its)) {        // diferencia entre dos puntos
-                                                        // ningún return dentro del for, return variable bool
-            if (its.itsPoint.z < curr_dist) {
-                curr_dist = its.itsPoint.z;
-            }
-            else {
-                return false;
+            float distance = std::sqrt(std::pow(its.itsPoint.x - cameraRay.o.x, 2) + std::pow(its.itsPoint.y - cameraRay.o.y, 2) +std::pow(its.itsPoint.z - cameraRay.o.z, 2) );                                          // ningún return dentro del for, return variable bool
+            if (distance < curr_dist) {
+                curr_dist = distance;
+                inter = true;
             }
         }
     }
-
-    return true;
+    return inter;
 }
 
 double interpolate(double val, double y0, double x0, double y1, double x1 )

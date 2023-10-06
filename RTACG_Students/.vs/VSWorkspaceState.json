@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\core",
+    "\\VisualStudio2015",
+    "\\VisualStudio2015\\RTACG"
   ],
+  "SelectedNode": "\\src\\core\\utils.cpp",
   "PreviewInSolutionExplorer": false
 }
