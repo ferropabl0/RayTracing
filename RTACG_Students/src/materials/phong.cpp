@@ -15,10 +15,10 @@ Vector3D Phong::getReflectance(const Vector3D& n, const Vector3D& wo, const Vect
 }
 
 bool Phong::hasSpecular() const {
-	return true;
+	return false;
 }
 bool Phong::hasTransmission() const {
-	return true;
+	return false;
 }
 bool Phong::hasDiffuseOrGlossy() const {
 	return true;

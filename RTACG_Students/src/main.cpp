@@ -19,6 +19,7 @@
 #include "shaders/normalshader.h"
 #include "shaders/directshader.h"
 #include "materials/phong.h"
+#include "materials/mirror.h"
 
 
 
@@ -166,6 +167,78 @@ void PaintImage(Film* film)
     }
 }
 
+void buildSceneCornellBox(Camera*& cam, Film*& film,
+    std::vector<Shape*>*& objectsList, std::vector<PointLightSource>*& lightSourceList)
+{
+    /* **************************** */
+    /* Declare and place the camera */
+    /* **************************** */
+    Matrix4x4 cameraToWorld = Matrix4x4::translate(Vector3D(0, 0, -3));
+    double fovDegrees = 60;
+    double fovRadians = Utils::degreesToRadians(fovDegrees);
+    cam = new PerspectiveCamera(cameraToWorld, fovRadians, *film);
+
+    /* ********* */
+    /* Materials */
+    /* ********* */
+    Material* redDiffuse = new Phong(Vector3D(0.7, 0.2, 0.3), Vector3D(0, 0, 0), 100);
+    Material* greenDiffuse = new Phong(Vector3D(0.2, 0.7, 0.3), Vector3D(0, 0, 0), 100);
+    Material* greyDiffuse = new Phong(Vector3D(0.8, 0.8, 0.8), Vector3D(0, 0, 0), 100);
+    Material* blueDiffuse = new Phong(Vector3D(0.3, 0.2, 0.7), Vector3D(0, 0, 0), 100);
+    Material* transmissive = new Phong(Vector3D(1, 1, 0.2), Vector3D(1, 1, 0.2), 20);
+    Material* mirror = new Mirror(Vector3D(1, 0.9, 0.85));
+    Material* red_100 = new Phong(Vector3D(0.7, 0.2, 0.3), Vector3D(0.7, 0.7, 0.2), 100);
+
+    /* ******* */
+    /* Objects */
+    /* ******* */
+    objectsList = new std::vector<Shape*>;
+    double offset = 3.0;
+    Matrix4x4 idTransform;
+    // Construct the Cornell Box
+    Shape* leftPlan = new InfinitePlan(Vector3D(-offset, 0, 0), Vector3D(1, 0, 0), redDiffuse);
+    Shape* rightPlan = new InfinitePlan(Vector3D(offset, 0, 0), Vector3D(-1, 0, 0), greenDiffuse);
+    Shape* topPlan = new InfinitePlan(Vector3D(0, offset, 0), Vector3D(0, -1, 0), greyDiffuse);
+    Shape* bottomPlan = new InfinitePlan(Vector3D(0, -offset, 0), Vector3D(0, 1, 0), greyDiffuse);
+    Shape* backPlan = new InfinitePlan(Vector3D(0, 0, 3 * offset), Vector3D(0, 0, -1), blueDiffuse);
+    objectsList->push_back(leftPlan);
+    objectsList->push_back(rightPlan);
+    objectsList->push_back(topPlan);
+    objectsList->push_back(bottomPlan);
+    objectsList->push_back(backPlan);
+
+    // Place the Spheres inside the Cornell Box
+    Matrix4x4 sphereTransform1;
+    double radius = 1;
+    sphereTransform1 = Matrix4x4::translate(Vector3D(-offset + radius, -offset + radius, 3.5));
+    Shape* s1 = new Sphere(1.5, sphereTransform1, mirror);
+    Matrix4x4 sphereTransform2;
+    sphereTransform2 = Matrix4x4::translate(Vector3D(1.0, 0.0, 2));
+    Shape* s2 = new Sphere(1, sphereTransform2, transmissive);
+    Matrix4x4 sphereTransform3;
+    radius = 1;
+    sphereTransform3 = Matrix4x4::translate(Vector3D(0.3, -offset + radius, 5));
+    Shape* s3 = new Sphere(radius, sphereTransform3, red_100);
+    objectsList->push_back(s1);
+    objectsList->push_back(s2);
+    objectsList->push_back(s3);
+
+    /* ****** */
+    /* Lights */
+    /* ****** */
+    lightSourceList = new std::vector<PointLightSource>;
+    Vector3D lightPosition1 = Vector3D(0, offset - 1, 2 * offset);
+    Vector3D lightPosition2 = Vector3D(0, offset - 1, 0);
+    Vector3D lightPosition3 = Vector3D(0, offset - 1, offset);
+    Vector3D intensity = Vector3D(5, 5, 5); // Radiant intensity (watts/sr)
+    PointLightSource pointLS1(lightPosition1, intensity);
+    PointLightSource pointLS2(lightPosition2, intensity);
+    PointLightSource pointLS3(lightPosition3, intensity);
+    lightSourceList->push_back(pointLS1);
+    lightSourceList->push_back(pointLS2);
+    lightSourceList->push_back(pointLS3);
+}
+
 int main()
 {
     std::string separator     = "\n----------------------------------------------\n";
@@ -182,7 +255,7 @@ int main()
     Vector3D intersectionColor(0.4,0.6,1);
     
     //Shader *shader = new IntersectionShader (intersectionColor, bgColor);
-    //Shader* shader = new DepthShader(intersectionColor, 8.0, bgColor);
+    //Shader* shader = new DepthShader(intersectionColor, 4.0, bgColor);
     //Shader* shader = new NormalShader(intersectionColor,bgColor);
     Shader* shader = new DirectShader(intersectionColor, bgColor);
 
@@ -193,8 +266,8 @@ int main()
     std::vector<Shape*>* objectsList;
     std::vector<PointLightSource>* lightSourceList;
     //Create Scene Geometry and Illumiantion
-    buildSceneSphere(cam, film, objectsList, lightSourceList);
-
+    //buildSceneSphere(cam, film, objectsList, lightSourceList);
+    buildSceneCornellBox(cam, film, objectsList, lightSourceList);
     //---------------------------------------------------------------------------
 
     //Paint Image ONLY TASK 1
