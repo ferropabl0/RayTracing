@@ -17,6 +17,7 @@
 #include "shaders/intersectionshader.h"
 #include "shaders/depthshader.h"
 #include "shaders/normalshader.h"
+#include "shaders/directshader.h"
 
 
 
@@ -93,8 +94,8 @@ void buildSceneSphere(Camera*& cam, Film*& film,
     PointLightSource pointLS2(lightPosition2, intensity);
     PointLightSource pointLS3(lightPosition3, intensity);
     lightSourceList->push_back(pointLS1);
-    //lightSourceList->push_back(pointLS2);
-    //lightSourceList->push_back(pointLS3);
+    lightSourceList->push_back(pointLS2);
+    lightSourceList->push_back(pointLS3);
 
     
 }
@@ -174,11 +175,12 @@ int main()
 
     // Declare the shader
     Vector3D bgColor(0.0, 0.0, 0.0); // Background color (for rays which do not intersect anything)
-    Vector3D intersectionColor(0,0,1);
+    Vector3D intersectionColor(0.4,0.6,1);
     
     //Shader *shader = new IntersectionShader (intersectionColor, bgColor);
     //Shader* shader = new DepthShader(intersectionColor, 8.0, bgColor);
-    Shader* shader = new NormalShader(intersectionColor,bgColor);
+    //Shader* shader = new NormalShader(intersectionColor,bgColor);
+    Shader* shader = new DirectShader(intersectionColor, bgColor);
 
     // Build the scene---------------------------------------------------------
     // 
@@ -192,7 +194,7 @@ int main()
     //---------------------------------------------------------------------------
 
     //Paint Image ONLY TASK 1
-    //PaintImage(film); already done
+    //PaintImage(film);
 
     // Launch some rays! TASK 2,3,...
     // 

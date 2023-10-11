@@ -2,3 +2,4 @@ C:\Users\MSI-GE66\Desktop\SUMMER\ACG\2019_2020_Imatge_Sintetica-001\2019_2020_Im
 C:\Users\u137471\Desktop\Courses UPF\Advanced Computer Graphics\2023-24\Lab1\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\RT_ACG.exe
 C:\Users\ferro\Documents\uni\4t\1r trim\graphics\labs\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\RT_ACG.exe
 C:\Users\Erabiltzailea\OneDrive\Dokumentuak\GitHub\AdvancedGraphics\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\RT_ACG.exe
+C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\RT_ACG.exe
