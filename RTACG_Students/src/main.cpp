@@ -44,6 +44,8 @@ void buildSceneSphere(Camera*& cam, Film*& film,
     /* ************************** */
 
     Material* green_50 = new Phong(Vector3D(0.2, 0.7, 0.3), Vector3D(0.2, 0.6, 0.2), 50);
+    Material* red_30 = new Phong(Vector3D(0.7, 0.2, 0.3), Vector3D(0.6, 0.2, 0.2), 30);
+    Material* blue_100 = new Phong(Vector3D(0.2, 0.3, 0.7), Vector3D(0.2, 0.2, 0.6), 100);
 
 
 
@@ -62,12 +64,12 @@ void buildSceneSphere(Camera*& cam, Film*& film,
     // Define and place a sphere
     Matrix4x4 sphereTransform2;
     sphereTransform2 = sphereTransform2.translate(Vector3D(1.25, 0.0, 6));
-    Shape* s2 = new Sphere(1.25, sphereTransform2, green_50);
+    Shape* s2 = new Sphere(1.25, sphereTransform2, red_30);
 
     // Define and place a sphere
     Matrix4x4 sphereTransform3;
     sphereTransform3 = sphereTransform3.translate(Vector3D(1.0, -0.75, 3.5));
-    Shape* s3 = new Sphere(0.25, sphereTransform3, green_50);
+    Shape* s3 = new Sphere(0.25, sphereTransform3, blue_100);
 
     // Store the objects in the object list
     objectsList->push_back(s1);
@@ -96,8 +98,8 @@ void buildSceneSphere(Camera*& cam, Film*& film,
     PointLightSource pointLS2(lightPosition2, intensity);
     PointLightSource pointLS3(lightPosition3, intensity);
     lightSourceList->push_back(pointLS1);
-    //lightSourceList->push_back(pointLS2);
-    //lightSourceList->push_back(pointLS3);
+    lightSourceList->push_back(pointLS2);
+    lightSourceList->push_back(pointLS3);
 
     
 }

@@ -2,9 +2,7 @@
 
 #include <iostream>
 
-Phong::Phong() :
-	d_coeff(Vector3D(0.5)), s_coeff(Vector3D(0.5)), alpha(0.5)
-{ }
+
 Phong::Phong(const Vector3D d_coeff_, const Vector3D s_coeff_, const double alpha_):
 	d_coeff(d_coeff_), s_coeff(s_coeff_), alpha(alpha_)
 { }
