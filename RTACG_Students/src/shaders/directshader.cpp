@@ -14,14 +14,25 @@ DirectShader::DirectShader(Vector3D hitColor_, Vector3D bgColor_) :
 Vector3D DirectShader::computeColor(const Ray& r, const std::vector<Shape*>& objList, const std::vector<PointLightSource>& lsList) const
 {
     Intersection its;
-    Vector3D L_o = Vector3D(0.0), L_i, w_i;
-    Phong ph = Phong(0.3, 0.4, 0.5);
+    Vector3D L_o = Vector3D(0.0), L_i, w_i, w_o;
+    Ray wi;
+    int isVisible = 0;
 
-    for (int s = 0; s < lsList.size(); s++) {
-        if (Utils::getClosestIntersection(r, objList, its)) {
+    if (Utils::getClosestIntersection(r, objList, its)) {       // Checking closest intersection with camera ray
+
+        for (int s = 2; s < lsList.size(); s++) {               // Looping through light sources
+            
+            w_i = (its.itsPoint - lsList[s].getPosition()).normalized();
+            w_o = (r.o - its.itsPoint).normalized();
+            
             L_i = lsList[s].getIntensity(its.itsPoint);
-            w_i = its.itsPoint - lsList[s].getPosition();
-            L_o += L_i * ph.getReflectance(its.normal, r.d, w_i);
+
+            wi = Ray(its.itsPoint, w_i);        // Creating the incident light ray
+            if (Utils::hasIntersection(wi, objList) == false) {
+                isVisible = 1;
+                L_o += (L_i * its.shape->getMaterial().getReflectance(its.normal, w_o, w_i) * isVisible);
+            }
+                
         }
     }
 
