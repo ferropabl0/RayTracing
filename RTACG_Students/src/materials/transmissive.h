@@ -7,7 +7,7 @@
 class Transmissive : public Material
 {
 public:
-    Transmissive();
+    Transmissive(const double u_t_, const Vector3D s_coeff_);
 
     virtual Vector3D getReflectance(const Vector3D& n, const Vector3D& wo, const Vector3D& wi) const;
 
@@ -18,6 +18,7 @@ public:
 
 private:
     double u_t;
+    Vector3D s_coeff;
 };
 
 

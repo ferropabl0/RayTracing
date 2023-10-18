@@ -1,4 +1,5 @@
 #include "utils.h"
+using namespace std;
 
 Utils::Utils()
 { }
@@ -48,7 +49,7 @@ bool Utils::getClosestIntersection(const Ray& cameraRay, const std::vector<Shape
         const Shape* obj = objectsList.at(objIndex);
 
         if (obj->rayIntersect(cameraRay, its)) {        // diferencia entre dos puntos
-            float distance = std::sqrt(std::pow(its.itsPoint.x - cameraRay.o.x, 2) + std::pow(its.itsPoint.y - cameraRay.o.y, 2) +std::pow(its.itsPoint.z - cameraRay.o.z, 2) );                                          // ningún return dentro del for, return variable bool
+            float distance = std::sqrt(pow(its.itsPoint.x - cameraRay.o.x, 2) + pow(its.itsPoint.y - cameraRay.o.y, 2) +pow(its.itsPoint.z - cameraRay.o.z, 2) );                                          // ningún return dentro del for, return variable bool
             if (distance < curr_dist) {
                 curr_dist = distance;
                 intersects = true;
