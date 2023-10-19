@@ -18,6 +18,7 @@
 #include "shaders/depthshader.h"
 #include "shaders/normalshader.h"
 #include "shaders/directshader.h"
+#include "shaders/globalshader.h"
 #include "materials/phong.h"
 #include "materials/mirror.h"
 #include "materials/transmissive.h"
@@ -258,8 +259,8 @@ int main()
     //Shader *shader = new IntersectionShader (intersectionColor, bgColor);
     //Shader* shader = new DepthShader(intersectionColor, 4.0, bgColor);
     //Shader* shader = new NormalShader(intersectionColor,bgColor);
-    Shader* shader = new DirectShader(intersectionColor, bgColor);
-
+    //Shader* shader = new DirectShader(intersectionColor, bgColor);
+    Shader* shader = new GlobalShader(intersectionColor, bgColor);
     // Build the scene---------------------------------------------------------
     // 
     // Declare pointers to all the variables which describe the scene

@@ -19,6 +19,7 @@ C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\src\materials\ph
 C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\src\materials\transmissive.cpp;C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\transmissive.obj
 C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\src\shaders\depthshader.cpp;C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\depthshader.obj
 C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\src\shaders\directshader.cpp;C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\directshader.obj
+C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\src\shaders\globalshader.cpp;C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\globalshader.obj
 C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\src\shaders\intersectionshader.cpp;C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\intersectionshader.obj
 C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\src\shaders\normalshader.cpp;C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\normalshader.obj
 C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\src\shaders\shader.cpp;C:\Users\ferro\Documents\GitHub\AdvancedGraphics\RTACG_Students\VisualStudio2015\RTACG\x64\Debug\shader.obj

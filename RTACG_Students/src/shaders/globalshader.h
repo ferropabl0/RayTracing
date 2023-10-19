@@ -1,6 +1,9 @@
 #ifndef GLOBALSHADER_H
 #define GLOBALSHADER_H
 
+#include "shader.h"
+
+
 class GlobalShader : public Shader
 {
 public:

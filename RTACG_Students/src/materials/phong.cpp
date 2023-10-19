@@ -23,7 +23,10 @@ bool Phong::hasTransmission() const {
 bool Phong::hasDiffuseOrGlossy() const {
 	return true;
 }
-
 double Phong::getIndexOfRefraction() const {
 	return 0.5;
+}
+
+Vector3D Phong::getDiffuseCoefficient() const {
+	return d_coeff;
 }

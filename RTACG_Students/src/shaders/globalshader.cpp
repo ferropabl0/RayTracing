@@ -13,7 +13,7 @@ GlobalShader::GlobalShader(Vector3D hitColor_, Vector3D bgColor_) :
 Vector3D GlobalShader::computeColor(const Ray& r, const std::vector<Shape*>& objList, const std::vector<PointLightSource>& lsList) const
 {
     Intersection its;
-    Vector3D L_o = Vector3D(0.0), L_i, w_i, w_o, w_r, w_t, neg_n;
+    Vector3D L_o = Vector3D(0.0), L_i, w_i, w_o, w_r, w_t, neg_n, L_ind, a_t = (0.5,0.5,0.5), k_d;
     Ray wi, refract;
     double root, sin2alpha, u_t;
 
@@ -78,11 +78,16 @@ Vector3D GlobalShader::computeColor(const Ray& r, const std::vector<Shape*>& obj
                 if (Utils::hasIntersection(wi, objList) == false) {
                     L_o += (L_i * its.shape->getMaterial().getReflectance(its.normal, w_o, w_i));
                 }
+
             }
 
 
         }
-
+        if (its.shape->getMaterial().hasDiffuseOrGlossy()) {
+            k_d = its.shape->getMaterial().getDiffuseCoefficient();
+            L_ind = a_t*k_d;
+            L_o += L_ind;
+        }
         return L_o;
     }
 
