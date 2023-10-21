@@ -17,12 +17,12 @@ Vector3D GlobalShader::computeColor(const Ray& r, const std::vector<Shape*>& obj
     Vector3D L_o = Vector3D(0.0), L_i, w_i, w_o, w_r, w_t, neg_n, L_ind = Vector3D(0.0), a_t = (0.1,0.1,0.1), k_d, w_j, L_i_n, L_i_r;
     Ray wi, refract, sec, refl;
     double root, sin2alpha, u_t;
-    int max_depth = 5;
+    int max_depth = 5, n;
 
 
     if (Utils::getClosestIntersection(r, objList, its)) {       // Checking closest intersection with camera ray
 
-        w_o = (r.o - its.itsPoint).normalized();    // dir from intersection to origin
+        w_o = (r.o - its.itsPoint).normalized();    // dir from intersection to camera pos
 
         if (its.shape->getMaterial().hasSpecular()) {           // MIRROR
             w_r = its.normal * (2 * dot(its.normal, w_o)) - w_o;    // refl direction
@@ -80,25 +80,27 @@ Vector3D GlobalShader::computeColor(const Ray& r, const std::vector<Shape*>& obj
 
             if (r.depth == 0) {
                 HemisphericalSampler sampler = HemisphericalSampler();
-                for (int i = 0; i < 100; i++) {      // n = 30
+                n = 30;
+                for (int i = 0; i < n; i++) {
                     w_j = sampler.getSample(its.normal);
                     sec = Ray(its.itsPoint, w_j, r.depth + 1);
                     L_i = computeColor(sec, objList, lsList);
                     L_ind += (L_i * its.shape->getMaterial().getReflectance(its.normal, w_j, w_o));
                 }
-                L_ind /= (2 * M_PI * 100);
+                L_ind /= (2 * M_PI * n);
                 L_o += L_ind;
             }
             else if (r.depth == max_depth) {
                 k_d = its.shape->getMaterial().getDiffuseCoefficient();
                 L_ind = a_t * k_d;
                 L_o += L_ind;
-            } else {
+
+            } else if (r.depth < max_depth) {
                 w_r = its.normal * (2 * dot(its.normal, w_o)) - w_o;
+                refl = Ray(its.itsPoint, w_r, r.depth + 1);
+                L_i_r = computeColor(refl, objList, lsList);
                 sec = Ray(its.itsPoint,its.normal, r.depth + 1);
                 L_i_n = computeColor(sec, objList, lsList);
-                refl = Ray(its.itsPoint,w_r,r.depth+1);
-                L_i_r = computeColor(refl, objList, lsList);
                 L_ind = (L_i_n * its.shape->getMaterial().getReflectance(its.normal, its.normal, w_o)) + (L_i_r * its.shape->getMaterial().getReflectance(its.normal, w_r, w_o));
                 L_ind /= (4 * M_PI);
                 L_o += L_ind;

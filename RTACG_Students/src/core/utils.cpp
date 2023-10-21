@@ -49,7 +49,7 @@ bool Utils::getClosestIntersection(const Ray& cameraRay, const std::vector<Shape
         const Shape* obj = objectsList.at(objIndex);
 
         if (obj->rayIntersect(cameraRay, its)) {        // diferencia entre dos puntos
-            float distance = std::sqrt(pow(its.itsPoint.x - cameraRay.o.x, 2) + pow(its.itsPoint.y - cameraRay.o.y, 2) +pow(its.itsPoint.z - cameraRay.o.z, 2) );                                          // ningún return dentro del for, return variable bool
+            float distance = std::sqrt(pow(its.itsPoint.x - cameraRay.o.x, 2) + pow(its.itsPoint.y - cameraRay.o.y, 2) +pow(its.itsPoint.z - cameraRay.o.z, 2) );                               
             if (distance < curr_dist) {
                 curr_dist = distance;
                 intersects = true;
