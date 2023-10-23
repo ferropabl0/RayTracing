@@ -17,8 +17,6 @@ Vector3D Utils::multiplyPerCanal(const Vector3D &v1, const Vector3D &v2)
 
 bool Utils::hasIntersection(const Ray& cameraRay, const std::vector<Shape*>& objectsList) //returns bool
 {
-    // std::cout << "Need to implement the function Utils::hasIntersection() in the file utils.cpp" << std::endl;
-
     // Write your code bellow
     // (...)
     //
@@ -39,17 +37,15 @@ bool Utils::hasIntersection(const Ray& cameraRay, const std::vector<Shape*>& obj
 
 bool Utils::getClosestIntersection(const Ray& cameraRay, const std::vector<Shape*>& objectsList, Intersection& its) //or Closest Hit Ray
 {
-    // std::cout << "Need to implement the function Utils::getClosestIntersection() in the file utils.cpp" << std::endl;
-
     bool intersects = false;
-    float curr_dist = cameraRay.maxT;
+    float curr_dist = cameraRay.maxT, distance;
     
 
     for (size_t objIndex = 0; objIndex < objectsList.size(); objIndex++) {
         const Shape* obj = objectsList.at(objIndex);
 
-        if (obj->rayIntersect(cameraRay, its)) {        // diferencia entre dos puntos
-            float distance = std::sqrt(pow(its.itsPoint.x - cameraRay.o.x, 2) + pow(its.itsPoint.y - cameraRay.o.y, 2) +pow(its.itsPoint.z - cameraRay.o.z, 2) );                               
+        if (obj->rayIntersect(cameraRay, its)) {        // difference between two points
+            distance = std::sqrt(pow(its.itsPoint.x - cameraRay.o.x, 2) + pow(its.itsPoint.y - cameraRay.o.y, 2) + pow(its.itsPoint.z - cameraRay.o.z, 2) );                               
             if (distance < curr_dist) {
                 curr_dist = distance;
                 intersects = true;

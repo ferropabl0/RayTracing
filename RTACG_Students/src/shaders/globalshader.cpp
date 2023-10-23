@@ -14,10 +14,10 @@ GlobalShader::GlobalShader(Vector3D hitColor_, Vector3D bgColor_) :
 Vector3D GlobalShader::computeColor(const Ray& r, const std::vector<Shape*>& objList, const std::vector<PointLightSource>& lsList) const
 {
     Intersection its;
-    Vector3D L_o = Vector3D(0.0), L_i, w_i, w_o, w_r, w_t, neg_n, L_ind = Vector3D(0.0), a_t = (0.1,0.1,0.1), k_d, w_j, L_i_n, L_i_r;
+    Vector3D L_o = Vector3D(0.0), L_ind = Vector3D(0.0), a_t = (0.1, 0.1, 0.1), L_i, w_i, w_o, w_r, w_t, neg_n, k_d, w_j, L_i_n, L_i_r;
     Ray wi, refract, sec, refl;
     double root, sin2alpha, u_t;
-    int max_depth = 5, n;
+    int max_depth = 3, n;
 
 
     if (Utils::getClosestIntersection(r, objList, its)) {       // Checking closest intersection with camera ray
@@ -78,30 +78,30 @@ Vector3D GlobalShader::computeColor(const Ray& r, const std::vector<Shape*>& obj
                 }
             }
 
-            if (r.depth == 0) {
+            if (r.depth == 0) {     // First bounce
                 HemisphericalSampler sampler = HemisphericalSampler();
-                n = 30;
+                n = 30;             // Number of random samples from 
                 for (int i = 0; i < n; i++) {
-                    w_j = sampler.getSample(its.normal);
-                    sec = Ray(its.itsPoint, w_j, r.depth + 1);
-                    L_i = computeColor(sec, objList, lsList);
-                    L_ind += (L_i * its.shape->getMaterial().getReflectance(its.normal, w_j, w_o));
+                    w_j = sampler.getSample(its.normal);    // random direction of the normal hemisphere
+                    sec = Ray(its.itsPoint, w_j, r.depth + 1);  // secondary ray
+                    L_i = computeColor(sec, objList, lsList);   // calling computeColor again, with an incremented depth
+                    L_ind += (L_i * its.shape->getMaterial().getReflectance(its.normal, w_j, w_o)); // Sum of indirect light
                 }
                 L_ind /= (2 * M_PI * n);
                 L_o += L_ind;
             }
-            else if (r.depth == max_depth) {
+            else if (r.depth == max_depth) {    // Last bounce
                 k_d = its.shape->getMaterial().getDiffuseCoefficient();
-                L_ind = a_t * k_d;
+                L_ind = a_t * k_d;      // Indirect component
                 L_o += L_ind;
-
-            } else if (r.depth < max_depth) {
-                w_r = its.normal * (2 * dot(its.normal, w_o)) - w_o;
+                 
+            } else if (r.depth < max_depth) {   // Other bounces
+                w_r = its.normal * (2 * dot(its.normal, w_o)) - w_o;    // Perfect reflected direction
                 refl = Ray(its.itsPoint, w_r, r.depth + 1);
-                L_i_r = computeColor(refl, objList, lsList);
+                L_i_r = computeColor(refl, objList, lsList);            // Li(reflected, w_o)
                 sec = Ray(its.itsPoint,its.normal, r.depth + 1);
-                L_i_n = computeColor(sec, objList, lsList);
-                L_ind = (L_i_n * its.shape->getMaterial().getReflectance(its.normal, its.normal, w_o)) + (L_i_r * its.shape->getMaterial().getReflectance(its.normal, w_r, w_o));
+                L_i_n = computeColor(sec, objList, lsList);             // Li(normal, w_o)
+                L_ind = (L_i_n * its.shape->getMaterial().getReflectance(its.normal, its.normal, w_o)) + (L_i_r * its.shape->getMaterial().getReflectance(its.normal, w_r, w_o));   // Formula
                 L_ind /= (4 * M_PI);
                 L_o += L_ind;
             }
